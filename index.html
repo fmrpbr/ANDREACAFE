@@ -106,28 +106,34 @@
       <h3 class="text-xs font-bold uppercase text-slate-400 mt-2"><i class="fa-solid fa-scale-balanced text-amber-800"></i> Posição Financeira</h3>
       <div class="grid grid-cols-2 gap-2">
         <div class="bg-white p-3 rounded-2xl shadow-sm border border-amber-100">
-          <p class="text-[10px] text-slate-500 font-bold uppercase">Faturamento (Vendas)</p>
+          <p class="text-[10px] text-slate-500 font-bold uppercase flex items-center justify-between">
+            Faturamento
+            <i class="fa-solid fa-circle-exclamation text-amber-500 cursor-pointer text-sm" onclick="alert('Faturamento é referente a todo o período de vendas desde o cadastro no sistema.')"></i>
+          </p>
           <p class="text-base font-black text-slate-800" id="dash-vendas-total">R$ 0,00</p>
         </div>
         <div class="bg-white p-3 rounded-2xl shadow-sm border border-red-100">
-          <p class="text-[10px] text-slate-500 font-bold uppercase">Custo (Compras)</p>
+          <p class="text-[10px] text-slate-500 font-bold uppercase flex items-center justify-between">
+            Custo (Compras)
+            <i class="fa-solid fa-circle-exclamation text-red-500 cursor-pointer text-sm" onclick="alert('Custo é referente a toda compra feita com fornecedores desde o cadastro no sistema.')"></i>
+          </p>
           <p class="text-base font-black text-red-600" id="dash-compras-total">R$ 0,00</p>
-        </div>
-        <div class="bg-white p-3 rounded-2xl shadow-sm border border-blue-100">
-          <p class="text-[10px] text-slate-500 font-bold uppercase">A Receber (Clientes)</p>
-          <p class="text-base font-black text-blue-600" id="dash-a-receber">R$ 0,00</p>
-        </div>
-        <div class="bg-white p-3 rounded-2xl shadow-sm border border-orange-100">
-          <p class="text-[10px] text-slate-500 font-bold uppercase">A Pagar (Fornec.)</p>
-          <p class="text-base font-black text-orange-600" id="dash-a-pagar">R$ 0,00</p>
         </div>
         <div class="bg-white p-3 rounded-2xl shadow-sm border border-emerald-100">
           <p class="text-[10px] text-slate-500 font-bold uppercase">Valor Recebido Pago</p>
           <p class="text-base font-black text-emerald-600" id="dash-recebido-pago">R$ 0,00</p>
         </div>
+        <div class="bg-white p-3 rounded-2xl shadow-sm border border-blue-100">
+          <p class="text-[10px] text-slate-500 font-bold uppercase">A Receber (Clientes)</p>
+          <p class="text-base font-black text-blue-600" id="dash-a-receber">R$ 0,00</p>
+        </div>
         <div class="bg-white p-3 rounded-2xl shadow-sm border border-purple-100">
           <p class="text-[10px] text-slate-500 font-bold uppercase">Valor em Estoque</p>
           <p class="text-base font-black text-purple-600" id="dash-valor-estoque">R$ 0,00</p>
+        </div>
+        <div class="bg-white p-3 rounded-2xl shadow-sm border border-orange-100">
+          <p class="text-[10px] text-slate-500 font-bold uppercase">A Pagar (Fornec.)</p>
+          <p class="text-base font-black text-orange-600" id="dash-a-pagar">R$ 0,00</p>
         </div>
       </div>
     </main>
@@ -152,7 +158,7 @@
       <div class="flex justify-between items-center">
         <div>
           <h2 class="font-bold text-lg text-slate-800">Clientes & Fiado</h2>
-          <p class="text-xs text-slate-500">Gestão de contatos e valores a receber</p>
+          <p class="text-xs text-slate-500">Gestão de contatos e cadastros</p>
         </div>
         <button onclick="abrirModalCliente()" class="bg-amber-800 hover:bg-amber-900 text-white text-xs font-bold px-3 py-2 rounded-xl flex items-center gap-1 shadow active:scale-95">
           <i class="fa-solid fa-user-plus"></i> Novo Cliente
@@ -163,6 +169,19 @@
         <input type="text" id="search-cliente" placeholder="Buscar por nome ou telefone..." class="w-full pl-9 pr-4 py-2.5 rounded-xl border border-slate-200 text-xs focus:outline-none focus:ring-2 focus:ring-amber-700 bg-white">
       </div>
       <div id="lista-clientes" class="space-y-3"></div>
+    </main>
+
+    <!-- TELA NOVA: EM ABERTO -->
+    <main id="tab-aberto" class="hidden p-4 space-y-4 max-w-md mx-auto w-full">
+      <div class="flex justify-between items-center">
+        <div>
+          <h2 class="font-bold text-lg text-slate-800">Em Aberto (Fiados)</h2>
+          <p class="text-xs text-slate-500">Gestão de pendências e cobranças via WhatsApp</p>
+        </div>
+      </div>
+      <div id="lista-aberto" class="space-y-3">
+        <div class="text-center py-8 text-slate-400 text-sm">Nenhum cliente com dívida em aberto.</div>
+      </div>
     </main>
 
     <!-- TELA 4: ESTOQUE -->
@@ -183,8 +202,8 @@
     <main id="tab-fornecedor" class="hidden p-4 space-y-4 max-w-md mx-auto w-full">
       <div class="flex justify-between items-center">
         <div>
-          <h2 class="font-bold text-lg text-slate-800">Entradas & Fornecedores</h2>
-          <p class="text-xs text-slate-500">Controle de compras e pagamentos</p>
+          <h2 class="font-bold text-lg text-slate-800">Fornecedor: Torre Forte Café</h2>
+          <p class="text-xs text-slate-500">Entradas de estoque e registros de pagamentos</p>
         </div>
       </div>
       <div id="lista-fornecedores" class="space-y-3">
@@ -194,20 +213,23 @@
 
     <!-- Navegação Inferior -->
     <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 flex justify-around py-2 shadow-2xl z-20">
-      <button onclick="navTo('inicio')" id="nav-btn-inicio" class="flex flex-col items-center text-amber-800 text-[11px] font-bold">
+      <button onclick="navTo('inicio')" id="nav-btn-inicio" class="flex flex-col items-center text-amber-800 text-[10px] font-bold">
         <i class="fa-solid fa-house text-lg mb-0.5"></i> Início
       </button>
-      <button onclick="navTo('vendas')" id="nav-btn-vendas" class="flex flex-col items-center text-slate-400 text-[11px]">
+      <button onclick="navTo('vendas')" id="nav-btn-vendas" class="flex flex-col items-center text-slate-400 text-[10px]">
         <i class="fa-solid fa-cash-register text-lg mb-0.5"></i> Vendas
       </button>
-      <button onclick="navTo('clientes')" id="nav-btn-clientes" class="flex flex-col items-center text-slate-400 text-[11px]">
+      <button onclick="navTo('clientes')" id="nav-btn-clientes" class="flex flex-col items-center text-slate-400 text-[10px]">
         <i class="fa-solid fa-users text-lg mb-0.5"></i> Clientes
       </button>
-      <button onclick="navTo('estoque')" id="nav-btn-estoque" class="flex flex-col items-center text-slate-400 text-[11px]">
+      <button onclick="navTo('aberto')" id="nav-btn-aberto" class="flex flex-col items-center text-slate-400 text-[10px]">
+        <i class="fa-solid fa-file-invoice-dollar text-lg mb-0.5"></i> Em Aberto
+      </button>
+      <button onclick="navTo('estoque')" id="nav-btn-estoque" class="flex flex-col items-center text-slate-400 text-[10px]">
         <i class="fa-solid fa-box text-lg mb-0.5"></i> Estoque
       </button>
-      <button onclick="navTo('fornecedor')" id="nav-btn-fornecedor" class="flex flex-col items-center text-slate-400 text-[11px]">
-        <i class="fa-solid fa-truck text-lg mb-0.5"></i> Fornecedor
+      <button onclick="navTo('fornecedor')" id="nav-btn-fornecedor" class="flex flex-col items-center text-slate-400 text-[10px]">
+        <i class="fa-solid fa-truck text-lg mb-0.5"></i> Fornec.
       </button>
     </nav>
   </div>
@@ -307,7 +329,13 @@
       </div>
       <form id="form-produto" class="space-y-3 text-left max-h-[75vh] overflow-y-auto pr-1">
         <div>
-          <label class="block text-xs font-semibold uppercase text-slate-600 mb-1">Produto</label>
+          <label class="block text-xs font-semibold uppercase text-slate-600 mb-1">Preencher Automático (Opcional)</label>
+          <select id="prod-existente" onchange="preencherProdutoExistente(this)" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-amber-700 mb-2">
+            <option value="">-- Digitar Produto Manualmente --</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-semibold uppercase text-slate-600 mb-1">Nome do Produto</label>
           <input type="text" id="prod-nome" required class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-amber-700">
         </div>
         <div class="grid grid-cols-2 gap-2">
@@ -331,10 +359,10 @@
           </div>
         </div>
         <div class="border-t pt-2 mt-2">
-          <label class="block text-xs font-bold uppercase text-slate-800 mb-1">Dados do Fornecedor</label>
+          <label class="block text-xs font-bold uppercase text-slate-800 mb-1">Dados do Fornecedor (Torre Forte Café)</label>
           <select id="prod-pago" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs mb-2">
             <option value="false">Em Aberto (A Pagar)</option>
-            <option value="true">Já Pago</option>
+            <option value="true">Já Pago na Hora</option>
           </select>
           <input type="date" id="prod-data-pagamento" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs">
         </div>
@@ -370,12 +398,21 @@
     let carrinho = [];
     let formaPagamento = 'PIX';
 
+    // Variáveis globais para cálculo matemático do Recebido Pago
+    let faturamentoTotalGlobal = 0;
+    let aReceberGlobal = 0;
+
+    function atualizarRecebidoPago() {
+      const pagoReal = faturamentoTotalGlobal - aReceberGlobal;
+      document.getElementById('dash-recebido-pago').textContent = `R$ ${pagoReal > 0 ? pagoReal.toFixed(2) : '0.00'}`;
+    }
+
     // Navegação
     window.navTo = function(tab) {
-      ['inicio', 'vendas', 'clientes', 'estoque', 'fornecedor'].forEach(t => {
+      ['inicio', 'vendas', 'clientes', 'estoque', 'fornecedor', 'aberto'].forEach(t => {
         document.getElementById(`tab-${t}`).classList.add('hidden');
         const btn = document.getElementById(`nav-btn-${t}`);
-        btn.className = (t === tab) ? "flex flex-col items-center text-amber-800 text-[11px] font-bold" : "flex flex-col items-center text-slate-400 text-[11px]";
+        btn.className = (t === tab) ? "flex flex-col items-center text-amber-800 text-[10px] font-bold" : "flex flex-col items-center text-slate-400 text-[10px]";
       });
       document.getElementById(`tab-${tab}`).classList.remove('hidden');
     };
@@ -416,14 +453,19 @@
         produtosCache = [];
         const listaEstoque = document.getElementById('lista-produtos');
         const gridPDV = document.getElementById('pdv-grid-produtos');
-        let valorTotalEstoque = 0;
+        const selectEstoque = document.getElementById('prod-existente');
         
+        let valorTotalEstoque = 0;
         listaEstoque.innerHTML = ''; gridPDV.innerHTML = '';
+        selectEstoque.innerHTML = '<option value="">-- Digitar Produto Manualmente --</option>';
+
         snapshot.forEach((docSnap) => {
           const prod = docSnap.data();
           const id = docSnap.id;
           produtosCache.push({ id, ...prod });
           valorTotalEstoque += (prod.estoqueAtual * prod.precoCompra);
+
+          selectEstoque.innerHTML += `<option value="${id}">${prod.nome}</option>`;
 
           listaEstoque.innerHTML += `
             <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100">
@@ -446,17 +488,21 @@
       });
     }
 
-    // CLIENTES
+    // CLIENTES & EM ABERTO
     function ouvirClientes() {
       onSnapshot(collection(db, "clientes"), (snapshot) => {
         clientesCache = [];
         const lista = document.getElementById('lista-clientes');
+        const listaAberto = document.getElementById('lista-aberto');
         const selectVenda = document.getElementById('venda-cliente-select');
         let totalReceber = 0;
         
         selectVenda.innerHTML = `<option value="balcao">Venda Balcão</option><option value="novo" class="font-bold text-amber-800">+ Cadastrar Novo</option>`;
         lista.innerHTML = '';
+        listaAberto.innerHTML = '';
         
+        let hasDivida = false;
+
         snapshot.forEach((docSnap) => {
           const cli = docSnap.data();
           const id = docSnap.id;
@@ -465,11 +511,12 @@
 
           selectVenda.innerHTML += `<option value="${id}">${cli.nome} ${cli.saldoDevedor > 0 ? `(Devendo R$ ${cli.saldoDevedor.toFixed(2)})` : ''}</option>`;
 
+          // Aba Clientes Tradicional
           lista.innerHTML += `
             <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between">
               <div>
                 <h4 class="font-extrabold text-slate-800 text-sm">${cli.nome}</h4>
-                <p class="text-[10px] text-slate-500">${cli.telefone}</p>
+                <p class="text-[10px] text-slate-500">${cli.telefone || 'Sem telefone'}</p>
                 <p class="text-xs font-bold ${cli.saldoDevedor > 0 ? 'text-red-600' : 'text-emerald-600'}">Fiado: R$ ${cli.saldoDevedor.toFixed(2)}</p>
               </div>
               <div class="flex gap-2">
@@ -477,8 +524,54 @@
                 ${cli.saldoDevedor > 0 ? `<button onclick="quitarFiado('${id}', '${cli.nome}', ${cli.saldoDevedor})" class="bg-emerald-700 text-white text-xs px-2.5 py-1.5 rounded-lg active:scale-95">Baixa</button>` : ''}
               </div>
             </div>`;
+
+          // Aba Em Aberto (Dívidas)
+          if (cli.saldoDevedor > 0) {
+            hasDivida = true;
+            let corBorda = 'border-yellow-300 bg-yellow-50';
+            let txtStatus = 'Data Indefinida';
+
+            if (cli.dataVencimento) {
+              const hoje = new Date();
+              const v = new Date(cli.dataVencimento + "T00:00:00");
+              const diffDias = (v - hoje) / (1000 * 60 * 60 * 24);
+              
+              if (diffDias < 0) {
+                corBorda = 'border-red-300 bg-red-50';
+                txtStatus = `Vencido (${cli.dataVencimento.split('-').reverse().join('/')})`;
+              } else {
+                corBorda = 'border-emerald-300 bg-emerald-50';
+                txtStatus = `No Prazo (${cli.dataVencimento.split('-').reverse().join('/')})`;
+              }
+            }
+
+            const msgWpp = `Olá ${cli.nome}, tudo bem? Passando para lembrar amigavelmente sobre o seu saldo em aberto conosco no Andrea Café Gourmet, no valor de R$ ${cli.saldoDevedor.toFixed(2)}. Qualquer dúvida, estamos à disposição!`;
+            const linkWpp = cli.telefone ? `https://api.whatsapp.com/send?phone=55${cli.telefone.replace(/\D/g,'')}&text=${encodeURIComponent(msgWpp)}` : '#';
+
+            listaAberto.innerHTML += `
+              <div class="p-4 rounded-2xl shadow-sm border ${corBorda} flex items-center justify-between">
+                <div>
+                  <h4 class="font-extrabold text-slate-800 text-sm">${cli.nome}</h4>
+                  <p class="text-[11px] font-black text-slate-800 mt-0.5">R$ ${cli.saldoDevedor.toFixed(2)}</p>
+                  <p class="text-[10px] text-slate-500 font-bold mt-1 uppercase">${txtStatus}</p>
+                </div>
+                <div class="flex gap-2">
+                  <button onclick="quitarFiado('${id}', '${cli.nome}', ${cli.saldoDevedor})" class="bg-slate-800 text-white text-[10px] font-bold px-2.5 py-2 rounded-xl shadow active:scale-95">Baixa</button>
+                  <a ${cli.telefone ? `href="${linkWpp}" target="_blank"` : `onclick="alert('Cliente não possui WhatsApp cadastrado.')"`} class="bg-emerald-500 hover:bg-emerald-600 text-white w-9 h-9 flex items-center justify-center rounded-full shadow text-sm">
+                    <i class="fa-brands fa-whatsapp"></i>
+                  </a>
+                </div>
+              </div>`;
+          }
         });
+
+        if(!hasDivida) {
+          listaAberto.innerHTML = '<div class="text-center py-8 text-slate-400 text-sm">Nenhum cliente com dívida em aberto.</div>';
+        }
+
+        aReceberGlobal = totalReceber;
         document.getElementById('dash-a-receber').textContent = `R$ ${totalReceber.toFixed(2)}`;
+        atualizarRecebidoPago();
       });
     }
 
@@ -498,6 +591,7 @@
           if(!ent.pago) totalAPagar += valorTotal;
 
           const dataBr = ent.dataEntrada ? ent.dataEntrada.toDate().toLocaleDateString('pt-BR') : '-';
+          const dataPagBr = ent.dataPagamentoAtual ? ent.dataPagamentoAtual.toDate().toLocaleDateString('pt-BR') : '-';
           
           lista.innerHTML += `
             <div class="bg-white p-4 rounded-2xl shadow-sm border ${ent.pago ? 'border-emerald-100' : 'border-orange-200'}">
@@ -505,13 +599,13 @@
                 <div>
                   <h4 class="font-extrabold text-slate-800 text-sm">${ent.produtoNome}</h4>
                   <p class="text-[10px] text-slate-500">Entrada: ${dataBr} | Qtd: ${ent.qtd}</p>
+                  ${ent.pago ? `<p class="text-[10px] font-bold text-emerald-600 mt-1"><i class="fa-solid fa-check"></i> Pago em: ${dataPagBr}</p>` : `<p class="text-[10px] font-bold text-orange-600 mt-1"><i class="fa-solid fa-clock"></i> Pagamento Pendente</p>`}
                 </div>
                 <div class="text-right">
                   <p class="font-black text-sm text-slate-800">R$ ${valorTotal.toFixed(2)}</p>
-                  <p class="text-[10px] font-bold ${ent.pago ? 'text-emerald-600' : 'text-orange-600'}">${ent.pago ? 'PAGO' : 'A PAGAR'}</p>
                 </div>
               </div>
-              ${!ent.pago ? `<button onclick="marcarEntradaPaga('${id}')" class="mt-2 w-full text-[10px] font-bold bg-slate-100 py-1.5 rounded-lg text-slate-700">Registrar Pagamento</button>` : ''}
+              ${!ent.pago ? `<button onclick="marcarEntradaPaga('${id}')" class="mt-2 w-full text-[10px] font-bold bg-slate-100 py-1.5 rounded-lg text-slate-700 border border-slate-200 shadow-sm active:scale-95">Registrar Pagamento Realizado</button>` : ''}
             </div>`;
         });
         
@@ -521,7 +615,7 @@
     }
 
     window.marcarEntradaPaga = async function(id) {
-      if(confirm("Confirmar pagamento a este fornecedor?")) {
+      if(confirm("Confirmar o pagamento a Torre Forte Café referente a esta entrada?")) {
         await updateDoc(doc(db, "entradas_estoque", id), { pago: true, dataPagamentoAtual: new Date() });
       }
     };
@@ -539,7 +633,6 @@
 
         let lucros = { dia: 0, semana: 0, mes: 0, d30: 0, semestre: 0, ano: 0 };
         let vendasTotais = 0;
-        let recebidoPago = 0;
 
         snapshot.forEach((docSnap) => {
           const v = docSnap.data();
@@ -547,8 +640,6 @@
           const l = v.lucro || 0;
           vendasTotais += v.total || 0;
           
-          if(v.formaPagamento !== 'FIADO') recebidoPago += v.total || 0;
-
           if (d >= startDia) lucros.dia += l;
           if (d >= startSemana) lucros.semana += l;
           if (d >= startMes) lucros.mes += l;
@@ -564,8 +655,9 @@
         document.getElementById('dash-lucro-semestre').textContent = `R$ ${lucros.semestre.toFixed(2)}`;
         document.getElementById('dash-lucro-ano').textContent = `R$ ${lucros.ano.toFixed(2)}`;
         
+        faturamentoTotalGlobal = vendasTotais;
         document.getElementById('dash-vendas-total').textContent = `R$ ${vendasTotais.toFixed(2)}`;
-        document.getElementById('dash-recebido-pago').textContent = `R$ ${recebidoPago.toFixed(2)}`;
+        atualizarRecebidoPago();
       });
     }
 
@@ -639,7 +731,9 @@
           await updateDoc(doc(db, "produtos", i.id), { estoqueAtual: increment(-i.qtd) });
         }
         if (formaPagamento === 'FIADO' && clienteId !== 'balcao') {
-          await updateDoc(doc(db, "clientes", clienteId), { saldoDevedor: increment(total) });
+          const updateCli = { saldoDevedor: increment(total) };
+          if (dataAgendada) updateCli.dataVencimento = dataAgendada;
+          await updateDoc(doc(db, "clientes", clienteId), updateCli);
         }
         
         carrinho = []; document.getElementById('cart-count').textContent = '0';
@@ -705,7 +799,22 @@
       document.getElementById('form-produto').reset();
       document.getElementById('modal-produto').classList.remove('hidden');
     };
+    
     window.fecharModalProduto = () => document.getElementById('modal-produto').classList.add('hidden');
+
+    window.preencherProdutoExistente = function(sel) {
+      if(!sel.value) {
+        document.getElementById('form-produto').reset();
+        return;
+      }
+      const prod = produtosCache.find(p => p.id === sel.value);
+      if(prod) {
+        document.getElementById('prod-nome').value = prod.nome;
+        document.getElementById('prod-custo').value = prod.precoCompra;
+        document.getElementById('prod-venda').value = prod.precoVenda;
+        document.getElementById('prod-minimo').value = prod.estoqueMinimo || 5;
+      }
+    };
 
     document.getElementById('form-produto').addEventListener('submit', async (e) => {
       e.preventDefault();
