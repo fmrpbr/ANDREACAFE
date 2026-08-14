@@ -73,7 +73,6 @@
         </span>
       </div>
 
-      <!-- Métricas de Lucro -->
       <h3 class="text-xs font-bold uppercase text-slate-400 mt-2"><i class="fa-solid fa-chart-line text-amber-800"></i> Indicadores de Lucro</h3>
       <div class="grid grid-cols-3 gap-2">
         <div class="bg-white p-3 rounded-2xl shadow-sm border border-slate-100">
@@ -102,7 +101,6 @@
         </div>
       </div>
 
-      <!-- Métricas Gerais e Estoque -->
       <h3 class="text-xs font-bold uppercase text-slate-400 mt-2"><i class="fa-solid fa-scale-balanced text-amber-800"></i> Posição Financeira</h3>
       <div class="grid grid-cols-2 gap-2">
         <div class="bg-white p-3 rounded-2xl shadow-sm border border-amber-100">
@@ -189,7 +187,7 @@
       <div class="flex justify-between items-center">
         <div>
           <h2 class="font-bold text-lg text-slate-800">Estoque</h2>
-          <p class="text-xs text-slate-500">Gerencie seus itens</p>
+          <p class="text-xs text-slate-500">Gerencie níveis e cores do inventário</p>
         </div>
         <button onclick="abrirModalProduto()" class="bg-amber-800 hover:bg-amber-900 text-white text-xs font-bold px-3 py-2 rounded-xl flex items-center gap-1 shadow active:scale-95">
           <i class="fa-solid fa-plus"></i> Adicionar
@@ -324,50 +322,54 @@
   <div id="modal-produto" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50">
     <div class="bg-white w-full max-w-sm rounded-3xl p-6 shadow-2xl space-y-4">
       <div class="flex justify-between items-center border-b pb-2">
-        <h3 class="font-bold text-slate-800">Entrada de Estoque</h3>
+        <h3 class="font-bold text-slate-800">Entrada / Sync de Estoque</h3>
         <button onclick="fecharModalProduto()" class="text-slate-400 text-lg font-bold">&times;</button>
       </div>
       <form id="form-produto" class="space-y-3 text-left max-h-[75vh] overflow-y-auto pr-1">
+        
         <div>
-          <label class="block text-xs font-semibold uppercase text-slate-600 mb-1">Preencher Automático (Opcional)</label>
-          <select id="prod-existente" onchange="preencherProdutoExistente(this)" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-amber-700 mb-2">
-            <option value="">-- Digitar Produto Manualmente --</option>
+          <label class="block text-xs font-semibold uppercase text-slate-600 mb-1">Selecionar Produto (Catálogo)</label>
+          <select id="prod-selecao" required class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-amber-700 bg-amber-50 font-medium">
+            <option value="" data-custo="0" data-venda="0">-- Escolha o Produto --</option>
+            <option value="Tradicional 250g" data-custo="12.20" data-venda="15.85">Tradicional 250g</option>
+            <option value="Tradicional 500g" data-custo="23.05" data-venda="28.90">Tradicional 500g</option>
+            <option value="Gourmet 250g" data-custo="18.52" data-venda="24.95">Gourmet 250g</option>
+            <option value="Gourmet 500g" data-custo="27.74" data-venda="38.90">Gourmet 500g</option>
+            <option value="Especial 250g" data-custo="18.09" data-venda="27.17">Especial 250g</option>
+            <option value="Especial 500g" data-custo="30.52" data-venda="45.84">Especial 500g</option>
           </select>
         </div>
-        <div>
-          <label class="block text-xs font-semibold uppercase text-slate-600 mb-1">Nome do Produto</label>
-          <input type="text" id="prod-nome" required class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-amber-700">
-        </div>
+
         <div class="grid grid-cols-2 gap-2">
           <div>
-            <label class="block text-xs font-semibold uppercase text-slate-600 mb-1">Custo Un (R$)</label>
-            <input type="number" step="0.01" id="prod-custo" required class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-amber-700">
+            <label class="block text-xs font-semibold uppercase text-slate-600 mb-1">Quantidade (+)</label>
+            <input type="number" id="prod-estoque" min="0" required value="0" class="w-full px-3 py-2 rounded-xl border border-amber-300 bg-white font-bold text-slate-800 text-xs focus:ring-2 focus:ring-amber-700">
           </div>
           <div>
-            <label class="block text-xs font-semibold uppercase text-slate-600 mb-1">Venda Un (R$)</label>
-            <input type="number" step="0.01" id="prod-venda" required class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-amber-700">
+            <label class="block text-xs font-semibold uppercase text-slate-600 mb-1">Estoque Mínimo</label>
+            <input type="number" id="prod-minimo" required value="5" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs bg-slate-50">
           </div>
         </div>
-        <div class="grid grid-cols-2 gap-2">
-          <div>
-            <label class="block text-xs font-semibold uppercase text-slate-600 mb-1">Qtd Comprada (+)</label>
-            <input type="number" id="prod-estoque" min="1" required class="w-full px-3 py-2 rounded-xl border border-amber-300 bg-amber-50 font-bold text-amber-900 text-xs focus:ring-2 focus:ring-amber-700">
-          </div>
-          <div>
-            <label class="block text-xs font-semibold uppercase text-slate-600 mb-1">Estoque Mín.</label>
-            <input type="number" id="prod-minimo" required value="5" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs">
-          </div>
+
+        <!-- Resumo da Compra Dinâmico -->
+        <div id="box-resumo-compra" class="hidden bg-emerald-50 p-3 rounded-xl border border-emerald-200 text-xs space-y-1 mt-2 shadow-inner">
+          <p class="font-bold text-emerald-800 uppercase mb-2 border-b border-emerald-200 pb-1">Resumo da Entrada</p>
+          <div class="flex justify-between"><span class="text-slate-600">Produto:</span> <span id="res-nome" class="font-bold text-slate-800"></span></div>
+          <div class="flex justify-between"><span class="text-slate-600">Qtd. Solicitada:</span> <span id="res-qtd" class="font-bold text-slate-800"></span></div>
+          <div class="flex justify-between"><span class="text-slate-600">Custo Unitário:</span> <span id="res-custo" class="font-bold text-slate-800"></span></div>
+          <div class="flex justify-between text-sm mt-2 pt-2 border-t border-emerald-200"><span class="font-black text-emerald-900">Total da Compra:</span> <span id="res-total" class="font-black text-emerald-700"></span></div>
         </div>
+
         <div class="border-t pt-2 mt-2">
-          <label class="block text-xs font-bold uppercase text-slate-800 mb-1">Dados do Fornecedor (Torre Forte Café)</label>
-          <select id="prod-pago" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs mb-2">
-            <option value="false">Em Aberto (A Pagar)</option>
+          <label class="block text-xs font-bold uppercase text-slate-800 mb-1">Fornecedor (Torre Forte Café)</label>
+          <select id="prod-pago" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs mb-2 bg-slate-50">
+            <option value="false">Pagamento Em Aberto (A Pagar)</option>
             <option value="true">Já Pago na Hora</option>
           </select>
-          <input type="date" id="prod-data-pagamento" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs">
         </div>
-        <button type="submit" class="w-full py-3 bg-amber-800 hover:bg-amber-900 text-white font-bold rounded-xl shadow text-xs transition active:scale-95">
-          Registrar Entrada
+
+        <button type="submit" class="w-full py-3.5 bg-amber-800 hover:bg-amber-900 text-white font-extrabold rounded-xl shadow-lg text-xs transition active:scale-95 flex items-center justify-center gap-2">
+          <i class="fa-solid fa-cloud-arrow-up text-lg"></i> Registrar e Sincronizar
         </button>
       </form>
     </div>
@@ -397,8 +399,6 @@
     let clientesCache = [];
     let carrinho = [];
     let formaPagamento = 'PIX';
-
-    // Variáveis globais para cálculo matemático do Recebido Pago
     let faturamentoTotalGlobal = 0;
     let aReceberGlobal = 0;
 
@@ -447,17 +447,15 @@
 
     document.getElementById('btn-logout').addEventListener('click', () => signOut(auth));
 
-    // PRODUTOS
+    // PRODUTOS COM SINALIZAÇÃO VISUAL (Verde, Amarelo, Vermelho)
     function ouvirProdutos() {
       onSnapshot(collection(db, "produtos"), (snapshot) => {
         produtosCache = [];
         const listaEstoque = document.getElementById('lista-produtos');
         const gridPDV = document.getElementById('pdv-grid-produtos');
-        const selectEstoque = document.getElementById('prod-existente');
-        
         let valorTotalEstoque = 0;
+        
         listaEstoque.innerHTML = ''; gridPDV.innerHTML = '';
-        selectEstoque.innerHTML = '<option value="">-- Digitar Produto Manualmente --</option>';
 
         snapshot.forEach((docSnap) => {
           const prod = docSnap.data();
@@ -465,22 +463,48 @@
           produtosCache.push({ id, ...prod });
           valorTotalEstoque += (prod.estoqueAtual * prod.precoCompra);
 
-          selectEstoque.innerHTML += `<option value="${id}">${prod.nome}</option>`;
+          let corBorda = 'border-emerald-400';
+          let corFundo = 'bg-emerald-50';
+          let corTexto = 'text-emerald-700';
+          let statusText = 'Estoque OK';
+          let corPdv = 'border-emerald-200';
+
+          if (prod.estoqueAtual === 0) {
+            corBorda = 'border-red-400';
+            corFundo = 'bg-red-50';
+            corTexto = 'text-red-700';
+            statusText = 'Esgotado';
+            corPdv = 'border-red-300 opacity-70 bg-red-50/40';
+          } else if (prod.estoqueAtual <= prod.estoqueMinimo) {
+            corBorda = 'border-yellow-400';
+            corFundo = 'bg-yellow-50';
+            corTexto = 'text-yellow-700';
+            statusText = 'Baixo';
+            corPdv = 'border-yellow-300 bg-yellow-50/30';
+          }
 
           listaEstoque.innerHTML += `
-            <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100">
-              <h4 class="font-bold text-slate-800 text-sm">${prod.nome}</h4>
-              <p class="text-xs text-slate-500">Custo: R$ ${prod.precoCompra.toFixed(2)} | Venda: R$ ${prod.precoVenda.toFixed(2)}</p>
-              <div class="text-xs text-slate-600 mt-1">Estoque: <span class="font-bold">${prod.estoqueAtual}</span> (Mín: ${prod.estoqueMinimo})</div>
+            <div class="p-4 rounded-2xl shadow-sm border ${corBorda} ${corFundo} flex justify-between items-center transition-all">
+              <div>
+                <h4 class="font-extrabold text-slate-800 text-sm">${prod.nome}</h4>
+                <p class="text-[10px] text-slate-500 mt-0.5">Custo: R$ ${prod.precoCompra.toFixed(2)} | Venda: R$ ${prod.precoVenda.toFixed(2)}</p>
+              </div>
+              <div class="text-right flex flex-col items-end">
+                <span class="text-2xl font-black ${corTexto}">${prod.estoqueAtual}</span>
+                <span class="text-[9px] font-bold uppercase tracking-wider ${corTexto}">${statusText}</span>
+              </div>
             </div>`;
 
           gridPDV.innerHTML += `
-            <div onclick="adicionarAoCarrinho('${id}')" class="bg-white p-3 rounded-2xl border border-slate-100 shadow-sm active:scale-95 cursor-pointer">
-              <h4 class="font-extrabold text-slate-800 text-sm leading-tight">${prod.nome}</h4>
-              <p class="text-[10px] text-slate-400">Estoque: ${prod.estoqueAtual}</p>
-              <div class="mt-2 flex justify-between items-center">
+            <div onclick="adicionarAoCarrinho('${id}')" class="p-3 rounded-2xl border ${corPdv} bg-white shadow-sm active:scale-95 cursor-pointer relative overflow-hidden transition-all">
+              ${prod.estoqueAtual === 0 ? '<div class="absolute top-0 right-0 bg-red-500 text-white text-[8px] font-bold px-2 py-0.5 rounded-bl-lg shadow-sm">ZERADO</div>' : ''}
+              <h4 class="font-extrabold text-slate-800 text-sm leading-tight pr-4">${prod.nome}</h4>
+              <p class="text-[10px] font-semibold mt-1 ${corTexto}">Em Estoque: ${prod.estoqueAtual}</p>
+              <div class="mt-2 flex justify-between items-center border-t border-slate-100 pt-2">
                 <span class="font-black text-amber-900 text-sm">R$ ${prod.precoVenda.toFixed(2)}</span>
-                <span class="w-6 h-6 bg-amber-800 text-white rounded-lg flex items-center justify-center text-xs"><i class="fa-solid fa-plus"></i></span>
+                <span class="w-6 h-6 ${prod.estoqueAtual === 0 ? 'bg-slate-300' : 'bg-amber-800'} text-white rounded-lg flex items-center justify-center text-xs">
+                  <i class="fa-solid fa-plus"></i>
+                </span>
               </div>
             </div>`;
         });
@@ -511,7 +535,6 @@
 
           selectVenda.innerHTML += `<option value="${id}">${cli.nome} ${cli.saldoDevedor > 0 ? `(Devendo R$ ${cli.saldoDevedor.toFixed(2)})` : ''}</option>`;
 
-          // Aba Clientes Tradicional
           lista.innerHTML += `
             <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between">
               <div>
@@ -525,7 +548,6 @@
               </div>
             </div>`;
 
-          // Aba Em Aberto (Dívidas)
           if (cli.saldoDevedor > 0) {
             hasDivida = true;
             let corBorda = 'border-yellow-300 bg-yellow-50';
@@ -575,7 +597,7 @@
       });
     }
 
-    // FORNECEDORES (Entradas de Estoque)
+    // FORNECEDORES
     function ouvirFornecedores() {
       onSnapshot(collection(db, "entradas_estoque"), (snapshot) => {
         const lista = document.getElementById('lista-fornecedores');
@@ -661,15 +683,17 @@
       });
     }
 
-    // FUNÇÕES DE CARRINHO E VENDA
+    // CARRINHO & PDV
     window.adicionarAoCarrinho = function(id) {
       const prod = produtosCache.find(p => p.id === id);
       const item = carrinho.find(i => i.id === id);
+      
+      if (prod.estoqueAtual <= 0) return alert("Produto Esgotado!");
+
       if (item) {
-        if (item.qtd >= prod.estoqueAtual) return alert("Estoque máximo.");
+        if (item.qtd >= prod.estoqueAtual) return alert("Quantidade máxima de estoque alcançada.");
         item.qtd++;
       } else {
-        if (prod.estoqueAtual <= 0) return alert("Sem estoque.");
         carrinho.push({ id: prod.id, nome: prod.nome, precoVenda: prod.precoVenda, precoCompra: prod.precoCompra, qtd: 1 });
       }
       document.getElementById('cart-count').textContent = carrinho.reduce((a, i) => a + i.qtd, 0);
@@ -714,7 +738,7 @@
     window.finalizarVenda = async function() {
       if (carrinho.length === 0) return;
       const clienteId = document.getElementById('venda-cliente-select').value;
-      if (formaPagamento === 'FIADO' && clienteId === 'balcao') return alert("Selecione um cliente para Fiado.");
+      if (formaPagamento === 'FIADO' && clienteId === 'balcao') return alert("Selecione um cliente cadastrado para vender Fiado.");
 
       const total = carrinho.reduce((a, i) => a + (i.precoVenda * i.qtd), 0);
       const custo = carrinho.reduce((a, i) => a + (i.precoCompra * i.qtd), 0);
@@ -737,8 +761,8 @@
         }
         
         carrinho = []; document.getElementById('cart-count').textContent = '0';
-        fecharModalCarrinho(); alert("Venda Finalizada!");
-      } catch (e) { alert("Erro: " + e.message); }
+        fecharModalCarrinho(); alert("Venda Finalizada com Sucesso!");
+      } catch (e) { alert("Erro ao finalizar a venda: " + e.message); }
     };
 
     // CLIENTE FUNÇÕES
@@ -784,69 +808,94 @@
           await addDoc(collection(db, "clientes"), { ...data, saldoDevedor: 0, dataCadastro: new Date() });
         }
         fecharModalCliente();
-      } catch (err) { alert("Erro: " + err.message); }
+      } catch (err) { alert("Erro ao salvar cliente: " + err.message); }
     });
 
     window.quitarFiado = async function(id, nome, valorAtual) {
-      const v = parseFloat(prompt(`Baixa para ${nome}. Valor devido: R$ ${valorAtual.toFixed(2)}\nValor pago:`, valorAtual));
+      const v = parseFloat(prompt(`Baixa manual para ${nome}.\nValor devido em aberto: R$ ${valorAtual.toFixed(2)}\nDigite o valor pago pelo cliente:`, valorAtual));
       if (v > 0) {
         await updateDoc(doc(db, "clientes", id), { saldoDevedor: Math.max(valorAtual - v, 0) });
       }
     };
 
-    // PRODUTO & FORNECEDOR
+    // PRODUTO & FORNECEDOR & RESUMO DE COMPRA
     window.abrirModalProduto = () => {
       document.getElementById('form-produto').reset();
+      document.getElementById('box-resumo-compra').classList.add('hidden');
       document.getElementById('modal-produto').classList.remove('hidden');
     };
     
     window.fecharModalProduto = () => document.getElementById('modal-produto').classList.add('hidden');
 
-    window.preencherProdutoExistente = function(sel) {
-      if(!sel.value) {
-        document.getElementById('form-produto').reset();
-        return;
+    function atualizarResumoCompra() {
+      const sel = document.getElementById('prod-selecao');
+      const opt = sel.options[sel.selectedIndex];
+      const box = document.getElementById('box-resumo-compra');
+      const nome = opt.value;
+      const qtd = parseInt(document.getElementById('prod-estoque').value) || 0;
+
+      if(nome) {
+        box.classList.remove('hidden');
+        const custo = parseFloat(opt.getAttribute('data-custo'));
+        document.getElementById('res-nome').textContent = nome;
+        document.getElementById('res-qtd').textContent = qtd;
+        document.getElementById('res-custo').textContent = `R$ ${custo.toFixed(2)}`;
+        document.getElementById('res-total').textContent = `R$ ${(custo * qtd).toFixed(2)}`;
+      } else {
+        box.classList.add('hidden');
       }
-      const prod = produtosCache.find(p => p.id === sel.value);
-      if(prod) {
-        document.getElementById('prod-nome').value = prod.nome;
-        document.getElementById('prod-custo').value = prod.precoCompra;
-        document.getElementById('prod-venda').value = prod.precoVenda;
-        document.getElementById('prod-minimo').value = prod.estoqueMinimo || 5;
-      }
-    };
+    }
+
+    document.getElementById('prod-selecao').addEventListener('change', atualizarResumoCompra);
+    document.getElementById('prod-estoque').addEventListener('input', atualizarResumoCompra);
 
     document.getElementById('form-produto').addEventListener('submit', async (e) => {
       e.preventDefault();
-      const nome = document.getElementById('prod-nome').value.trim();
-      const custo = parseFloat(document.getElementById('prod-custo').value);
-      const venda = parseFloat(document.getElementById('prod-venda').value);
+      
+      const sel = document.getElementById('prod-selecao');
+      const opt = sel.options[sel.selectedIndex];
+      const nome = opt.value;
+
+      if(!nome) return alert("Por favor, selecione um produto do catálogo Torre Forte.");
+
+      const custo = parseFloat(opt.getAttribute('data-custo'));
+      const venda = parseFloat(opt.getAttribute('data-venda'));
       const qtd = parseInt(document.getElementById('prod-estoque').value);
       const min = parseInt(document.getElementById('prod-minimo').value);
       const pago = document.getElementById('prod-pago').value === "true";
-      const dataPag = document.getElementById('prod-data-pagamento').value;
 
       try {
         const q = query(collection(db, "produtos"), where("nome", "==", nome));
         const snap = await getDocs(q);
         
         let prodId = "";
+        
         if (!snap.empty) {
           prodId = snap.docs[0].id;
-          await updateDoc(doc(db, "produtos", prodId), { precoCompra: custo, precoVenda: venda, estoqueAtual: increment(qtd), estoqueMinimo: min });
+          await updateDoc(doc(db, "produtos", prodId), { 
+            precoCompra: custo, 
+            precoVenda: venda, 
+            estoqueAtual: increment(qtd), 
+            estoqueMinimo: min 
+          });
         } else {
-          const docRef = await addDoc(collection(db, "produtos"), { nome, precoCompra: custo, precoVenda: venda, estoqueAtual: qtd, estoqueMinimo: min });
+          const docRef = await addDoc(collection(db, "produtos"), { 
+            nome, precoCompra: custo, precoVenda: venda, estoqueAtual: qtd, estoqueMinimo: min 
+          });
           prodId = docRef.id;
         }
 
-        await addDoc(collection(db, "entradas_estoque"), {
-          produtoId: prodId, produtoNome: nome,
-          qtd, custoUn: custo, pago, dataPagamentoFixo: dataPag,
-          dataEntrada: new Date()
-        });
+        // Caso seja apenas a sincronização de catálogo (qtd 0), não registra uma compra com o fornecedor.
+        if (qtd > 0) {
+          await addDoc(collection(db, "entradas_estoque"), {
+            produtoId: prodId, produtoNome: nome,
+            qtd, custoUn: custo, pago, dataPagamentoAtual: pago ? new Date() : null,
+            dataEntrada: new Date()
+          });
+        }
 
         fecharModalProduto();
-      } catch (err) { alert("Erro: " + err.message); }
+      } catch (err) { alert("Erro ao registrar entrada no estoque: " + err.message); }
     });
   </script>
 </body>
