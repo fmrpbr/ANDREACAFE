@@ -914,50 +914,50 @@
         fecharModalProduto();
       } catch (err) { alert("Erro ao registrar entrada no estoque: " + err.message); }
     });
-    // INSIGHTS COM INTELIGÊNCIA ARTIFICIAL (GEMINI API)
-window.gerarInsightIA = async function() {
-  const btn = document.querySelector('button[onclick="gerarInsightIA()"]');
-  const textoContainer = document.getElementById('insight-ia-texto');
-  
-  // Extrai os valores reais da tela
-  const faturamentoHoje = document.getElementById('dash-vendas-total').textContent;
-  const lucroHoje = document.getElementById('dash-lucro-hoje').textContent;
-  const aReceber = document.getElementById('dash-a-receber').textContent;
-  
-  // INSIRA SUA CHAVE DA GOOGLE AI STUDIO AQUI
-  const GEMINI_API_KEY = 'AQ.Ab8RN6IcW4P_jmAOohPh-Cl-Bs5JwIPu3l0P0sKHK9YgdLephA'; 
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+    // INSIGHTS LOCAIS (MOTOR ESTRATÉGICO OFF-LINE)
+    const mensagensEstrategicas = [
+      "Faturamento é vaidade, lucro é sanidade e fluxo de caixa é a realidade. Monitore suas margens.",
+      "Venda 'Fiado' não é receita, é empréstimo sem juros com risco de calote. Execute as cobranças.",
+      "Vender o café mais barato não atrai clientes leais, atrai clientes baratos. Posicione o grão Especial.",
+      "Estoque parado não é museu, é capital imobilizado. Faça girar as embalagens tradicionais.",
+      "A esperança não é uma estratégia de vendas. Faça o 'upsell': ofereça 500g a quem pediu 250g.",
+      "Descontos cortam seu lucro muito mais rápido do que cortam o preço. Venda valor, não custo.",
+      "O dinheiro do caixa pertence à empresa. Disciplina rigorosa na separação de receitas.",
+      "Bons atendimentos geram vendas hoje. Excelentes atendimentos geram previsibilidade para amanhã.",
+      "O café esfria e o cliente desiste. A agilidade neste Ponto de Venda dita o ritmo do seu dia.",
+      "A planilha não aceita desculpas. Acompanhe a aba 'Em Aberto' com a mesma frieza que analisa o 'Lucro'.",
+      "Giro de estoque alto com margem baixa é trabalhar de graça. Calibre os preços constantemente.",
+      "Seu melhor cliente é aquele que já comprou. Utilize o banco de dados para ofertas direcionadas.",
+      "Se o limite mínimo do estoque foi atingido, a falha operacional já começou. Antecipe a Torre Forte.",
+      "Promoção atrai quem procura preço. Qualidade e constância atraem quem procura valor duradouro.",
+      "Aquele que não mede, não gerencia. Os indicadores de hoje constroem a realidade comercial de amanhã."
+    ];
 
-  const prompt = `Você é um consultor executivo de alto nível focado em cafeterias. 
-  Analise os seguintes dados financeiros de hoje do "Andrea Café Gourmet":
-  - Faturamento Total Acumulado: ${faturamentoHoje}
-  - Lucro de Hoje: ${lucroHoje}
-  - Valores a Receber (Fiados em Aberto): ${aReceber}
-  
-  Me forneça:
-  1. Uma frase motivacional, ambiciosa e levemente irônica sobre vendas.
-  2. Um parágrafo curto (máximo 3 linhas) com uma opinião estratégica rigorosa sobre esses números. Não use formatação em markdown (sem asteriscos).`;
+    let mensagensNaoLidas = [...mensagensEstrategicas];
 
-  try {
-    textoContainer.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin text-amber-400"></i> Analisando métricas...';
-    btn.disabled = true;
+    window.gerarInsightIA = function() {
+      const btn = document.querySelector('button[onclick="gerarInsightIA()"]');
+      const textoContainer = document.getElementById('insight-ia-texto');
+      
+      // Se todas as mensagens já foram exibidas, recarrega o acervo
+      if (mensagensNaoLidas.length === 0) {
+        mensagensNaoLidas = [...mensagensEstrategicas];
+      }
 
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
-    });
+      // Sorteia um índice aleatório e o remove da lista de não lidas para evitar repetição
+      const indexSorteado = Math.floor(Math.random() * mensagensNaoLidas.length);
+      const mensagemEscolhida = mensagensNaoLidas.splice(indexSorteado, 1)[0];
 
-    const data = await response.json();
-    const respostaIA = data.candidates[0].content.parts[0].text;
-    
-    textoContainer.textContent = `"${respostaIA.trim()}"`;
-  } catch (error) {
-    textoContainer.textContent = "Erro na comunicação com a rede neural. Verifique sua chave de API ou conexão.";
-  } finally {
-    btn.disabled = false;
-  }
-};
+      // Efeito visual de processamento local
+      textoContainer.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin text-amber-400"></i> Extraindo inteligência de dados...';
+      btn.disabled = true;
+
+      // Delay de 600ms simulando o tempo de resposta
+      setTimeout(() => {
+        textoContainer.textContent = `"${mensagemEscolhida}"`;
+        btn.disabled = false;
+      }, 600);
+    };
   </script>
 </body>
 </html>
